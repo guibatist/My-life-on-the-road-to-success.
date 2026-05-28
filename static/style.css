@@ -1,0 +1,174 @@
+/* Paleta Institucional Inspirada na G4S */
+:root {
+    --g4s-dark-blue: #002D62;
+    --g4s-red: #D22630;
+    --g4s-gray-light: #F5F7FA;
+    --g4s-text-dark: #333333;
+    --g4s-white: #FFFFFF;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--g4s-gray-light);
+    color: var(--g4s-text-dark);
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: var(--g4s-dark-blue);
+    color: var(--g4s-white);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 4px solid var(--g4s-red);
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.navbar .logo span {
+    color: var(--g4s-red);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background-color: var(--g4s-white);
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: var(--g4s-dark-blue);
+    margin-top: 0;
+    border-bottom: 2px solid var(--g4s-gray-light);
+    padding-bottom: 10px;
+}
+
+/* Dashboard Financeiro Layout */
+.metrics {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.metric-box {
+    background-color: var(--g4s-gray-light);
+    flex: 1;
+    padding: 15px;
+    border-radius: 4px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.metric-box small {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.metric-box.highlight {
+    background-color: var(--g4s-dark-blue);
+    color: var(--g4s-white);
+}
+
+.progress-bar-container {
+    background-color: #E0E0E0;
+    border-radius: 10px;
+    height: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: var(--g4s-red);
+    height: 100%;
+    transition: width 0.4s ease;
+}
+
+/* Formulários Estrutura */
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+}
+
+.inline-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.inline-form input { margin-bottom: 0; }
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.btn-primary { background-color: var(--g4s-dark-blue); color: white; }
+.btn-primary:hover { opacity: 0.9; }
+.btn-danger { background-color: var(--g4s-red); color: white; }
+.btn-small { padding: 6px 12px; font-size: 12px; }
+
+/* Grid layout dos módulos */
+.grid-two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.item-list {
+    background: var(--g4s-gray-light);
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.closure-form textarea {
+    margin-top: 10px;
+    height: 60px;
+}
+
+.report-box {
+    background-color: #E9EEF4;
+    border-left: 3px solid var(--g4s-dark-blue);
+    padding: 8px;
+    margin: 10px 0 0 0;
+    font-size: 14px;
+}
+
+.badge {
+    padding: 3px 8px;
+    color: white;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.small-text { font-size: 13px; color: #555; }

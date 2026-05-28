@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G4S Strategy - Cape Town Operation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">G4S <span>OPERATIONS TACTICAL</span></div>
+        <div class="subtitle">Destino: Cape Town (Dez 2027) & Rumo aos EUA</div>
+    </header>
+
+    <main class="container">
+        
+        <section class="card finance-dash">
+            <h2>Módulo Financeiro - Passaporte Cape Town</h2>
+            <div class="metrics">
+                <div class="metric-box">
+                    <small>Meta Fixa</small>
+                    pR$ 55.000,00
+                </div>
+                <div class="metric-box">
+                    <small>Total Acumulado</small>
+                    R$ {{ "{:,.2f}".format(total_acumulado) }}
+                </div>
+                <div class="metric-box highlight">
+                    <small>Progresso Realizado</small>
+                    {{ progresso_percentual }}%
+                </div>
+            </div>
+            
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: {{ progresso_percentual }}%;"></div>
+            </div>
+
+            <form action="/finance/add" method="POST" class="inline-form">
+                <input type="date" name="date" required>
+                <input type="number" step="0.01" name="amount" placeholder="Valor do Aporte (R$)" required>
+                <input type="text" name="observation" placeholder="Ex: R$ 1700 Caixinha + Rendimento">
+                <button type="submit" class="btn btn-primary">Registrar Aporte</button>
+            </form>
+        </section>
+
+        <div class="grid-two-columns">
+            
+            <section class="card">
+                <h2>Módulo Inglês Corporativo</h2>
+                <form action="/english/add" method="POST" class="vertical-form">
+                    <input type="text" name="title" placeholder="Nome do Treinamento (Ex: Pitch G4S)" required>
+                    <div class="row">
+                        <input type="date" name="date" required>
+                        <input type="time" name="time" required>
+                    </div>
+                    <textarea name="description" placeholder="Foco do estudo (Listening, Speaking, Escrita do LinkedIn...)"></textarea>
+                    <button type="submit" class="btn btn-primary">Agendar Sessão</button>
+                </form>
+
+                <hr>
+                
+                <h3>Fila de Estudos & Histórico</h3>
+                {% for task in english_tasks %}
+                <div class="item-list {% if task.completed %}completed-item{% endif %}">
+                    <div>
+                        <strong>{{ task.title }}</strong> - <small>{{ task.date }} às {{ task.time }}</small>
+                        <p>{{ task.description }}</p>
+                        {% if task.learning_report %}
+                            <blockquote class="report-box">💡 <strong>Relatório:</strong> {{ task.learning_report }}</blockquote>
+                        {% endif %}
+                    </div>
+                    {% if not task.completed %}
+                    <form action="/english/complete/{{ task.id }}" method="POST" class="closure-form">
+                        <textarea name="learning_report" placeholder="O que aprendeu hoje? (Obrigatório para concluir)" required></textarea>
+                        <button type="submit" class="btn btn-danger btn-small">Fechar Bloco</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </section>
+
+            <section class="card">
+                <h2>Trabalho, BI & Networking VIP</h2>
+                <form action="/work/add" method="POST" class="vertical-form">
+                    <input type="text" name="title" placeholder="Título (Ex: Reunião VP Accor / Ajuste Salesforce)" required>
+                    <div class="row">
+                        <label>Início: <input type="date" name="start_date" required></label>
+                        <label>Deadline: <input type="date" name="due_date" required></label>
+                    </div>
+                    <select name="urgency" required>
+                        <option value="Regular">Regular (Backoffice tranquilo)</option>
+                        <option value="Prioridade">Prioridade (Esta semana)</option>
+                        <option value="Urgente">Urgente (Fazer Hoje!)</option>
+                    </select>
+                    <input type="text" name="emails_together" placeholder="Convidados Google Calendar (Separados por vírgula)">
+                    <button type="submit" class="btn btn-primary">Cadastrar e Sincronizar</button>
+                </form>
+
+                <hr>
+
+                <h3>Lista de Backlog</h3>
+                {% for task in work_tasks %}
+                <div class="item-list" style="border-left: 5px solid {{ urgency_colors[task.urgency] }}">
+                    <div>
+                        <strong>{{ task.title }}</strong> 
+                        <span class="badge" style="background-color: {{ urgency_colors[task.urgency] }}">{{ task.urgency }}</span>
+                        <p class="small-text">Prazo: {{ task.start_date }} até {{ task.due_date }}</p>
+                        {% if task.emails_together %}
+                            <p class="small-text"><strong>Networking:</strong> {{ task.emails_together }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+
+        </div>
+    </main>
+</body>
+</html>
