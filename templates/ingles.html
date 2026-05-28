@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block header_title %}Módulo de Preparação de Idioma{% endblock %}
+{% block content %}
+<div class="grid grid-cols-12 gap-6 h-full items-start">
+    
+    <!-- COLUNA ESQUERDA: AGENDAMENTO -->
+    <div class="col-span-4 bg-white border border-slate-200/60 rounded-2xl p-6 shadow-premium">
+        <div class="flex items-center gap-2 pb-4 border-b border-slate-100 mb-5">
+            <i data-feather="plus-circle" class="w-4 h-4 text-g4s-red"></i>
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Nova Sessão Tática</h3>
+        </div>
+        
+        <form action="/english/add" method="POST" class="space-y-4">
+            <div>
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Tópico Central</label>
+                <input type="text" name="title" placeholder="Ex: Pitch Executivo Accor" required class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-g4s-red focus:bg-white transition-all">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Data</label>
+                    <input type="date" name="date" required class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-g4s-red focus:bg-white transition-all">
+                </div>
+                <div>
+                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Horário</label>
+                    <input type="time" name="time" required class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-g4s-red focus:bg-white transition-all">
+                </div>
+            </div>
+            <div>
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Escopo de Estudo</label>
+                <textarea name="description" rows="3" placeholder="Foco em Speaking, escrita técnica de e-mails..." class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-g4s-red focus:bg-white transition-all resize-none"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-g4s-dark hover:bg-g4s-dark-hover text-white font-semibold text-xs py-3 rounded-xl tracking-wide uppercase transition-all mt-2">Agendar Treino</button>
+        </form>
+    </div>
+
+    <!-- COLUNA DIREITA: FEED/HISTÓRICO (SCROLL INTERNO) -->
+    <div class="col-span-8 bg-white border border-slate-200/60 rounded-2xl p-6 shadow-premium flex flex-col h-[520px]">
+        <div class="flex items-center gap-2 pb-4 border-b border-slate-100 mb-4 shrink-0">
+            <i data-feather="list" class="w-4 h-4 text-g4s-red"></i>
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Histórico de Sessões</h3>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto space-y-3.5 pr-2">
+            {% for task in tasks %}
+            <div class="p-4 border border-slate-200/60 rounded-xl bg-white flex flex-col gap-2.5 transition-all hover:border-slate-300 {% if task.completed %}bg-slate-50/40 opacity-70{% endif %}">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="text-sm font-semibold text-slate-900">{{ task.title }}</h4>
+                        <span class="text-[11px] text-slate-400 font-medium mt-0.5 block">{{ task.date.strftime('%d/%m/%Y') }} às {{ task.time.strftime('%H:%M') }}</span>
+                    </div>
+                    {% if task.completed %}
+                        <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Consolidado</span>
+                    {% endif %}
+                </div>
+                
+                {% if task.description %}
+                    <p class="text-xs text-slate-500 leading-relaxed">{{ task.description }}</p>
+                {% endif %}
+
+                {% if not task.completed %}
+                <form action="/english/complete/{{ task.id }}" method="POST" class="flex gap-2 border-t border-slate-100 pt-3 mt-1">
+                    <input type="text" name="learning_report" placeholder="O que aprendeu nesta sessão? (Obrigatório para concluir)" required class="flex-1 text-xs px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-g4s-red focus:bg-white transition-all">
+                    <button type="submit" class="bg-g4s-red hover:bg-g4s-red-hover text-white text-[11px] font-bold px-4 rounded-lg uppercase tracking-wide transition-all shrink-0">Fechar Bloco</button>
+                </form>
+                {% else %}
+                    <div class="bg-slate-50 border-l-2 border-slate-400 p-3 rounded-r-xl text-xs text-slate-600 italic">
+                        <strong>Relatório:</strong> {{ task.learning_report }}
+                    </div>
+                {% endif %}
+            </div>
+            {% else %}
+                <p class="text-xs text-slate-400 font-medium py-4 text-center">Nenhum bloco operacional de estudo listado.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

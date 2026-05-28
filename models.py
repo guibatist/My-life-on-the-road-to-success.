@@ -9,7 +9,6 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     
-    # Relacionamentos
     english_tasks = db.relationship('EnglishTask', backref='user', lazy=True)
     work_tasks = db.relationship('WorkTask', backref='user', lazy=True)
     financial_contributions = db.relationship('FinancialContribution', backref='user', lazy=True)
@@ -23,7 +22,7 @@ class EnglishTask(db.Model):
     time = db.Column(db.Time, nullable=False)
     description = db.Column(db.Text, nullable=True)
     completed = db.Column(db.Boolean, default=False)
-    learning_report = db.Column(db.Text, nullable=True) # Regra de Conclusão Obrigatória
+    learning_report = db.Column(db.Text, nullable=True)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class WorkTask(db.Model):
@@ -34,8 +33,8 @@ class WorkTask(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     due_date = db.Column(db.Date, nullable=False)
     urgency = db.Column(db.String(20), nullable=False) # 'Urgente', 'Prioridade', 'Regular'
-    emails_together = db.Column(db.Text, nullable=True) # Lista de e-mails separados por vírgula
-    google_event_id = db.Column(db.String(255), nullable=True) # Sincronização API
+    emails_together = db.Column(db.Text, nullable=True)
+    google_event_id = db.Column(db.String(255), nullable=True)
 
 class FinancialContribution(db.Model):
     __tablename__ = 'financial_contributions'

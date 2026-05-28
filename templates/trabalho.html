@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block header_title %}Módulo de Backoffice & Networking Executivo{% endblock %}
+{% block content %}
+<div class="grid grid-cols-12 gap-6 h-full items-start">
+    
+    <!-- COLUNA ESQUERDA: INPUT -->
+    <div class="col-span-4 bg-white border border-slate-200/60 rounded-2xl p-6 shadow-premium">
+        <div class="flex items-center gap-2 pb-4 border-b border-slate-100 mb-5">
+            <i data-feather="plus-circle" class="w-4 h-4 text-g4s-red"></i>
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Novo Alinhamento</h3>
+        </div>
+        
+        <form action="/work/add" method="POST" class="space-y-4">
+            <div>
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Identificação do Job / Reunião</label>
+                <input type="text" name="title" placeholder="Ex: Alinhamento BI / Liderança G4S" required class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-g4s-red focus:bg-white transition-all">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Início</label>
+                    <input type="date" name="start_date" required class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-g4s-red focus:bg-white transition-all">
+                </div>
+                <div>
+                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Prazo Final</label>
+                    <input type="date" name="due_date" required class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-g4s-red focus:bg-white transition-all">
+                </div>
+            </div>
+            <div>
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Nível de Urgência</label>
+                <select name="urgency" required class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-g4s-red focus:bg-white transition-all">
+                    <option value="Urgente">🔴 Urgente (Liquidar Hoje)</option>
+                    <option value="Prioridade">⚪ Prioridade (Foco da Semana)</option>
+                    <option value="Regular">⚫ Regular (Rotina de Backoffice)</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Pessoas Juntas (Emails para Convite)</label>
+                <input type="text" name="emails_together" placeholder="diretoria@g4s.com, lead@accor.com" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-g4s-red focus:bg-white transition-all">
+            </div>
+            <button type="submit" class="w-full bg-g4s-red hover:bg-g4s-red-hover text-white font-semibold text-xs py-3 rounded-xl tracking-wide uppercase transition-all mt-2">Mapear e Enviar Convites</button>
+        </form>
+    </div>
+
+    <!-- COLUNA DIREITA: BACKLOG -->
+    <div class="col-span-8 bg-white border border-slate-200/60 rounded-2xl p-6 shadow-premium flex flex-col h-[520px]">
+        <div class="flex items-center gap-2 pb-4 border-b border-slate-100 mb-4 shrink-0">
+            <i data-feather="layers" class="w-4 h-4 text-g4s-red"></i>
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Backlog Estruturado</h3>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto space-y-3 pr-2">
+            {% for task in tasks %}
+            <div class="p-4 border border-slate-200/60 rounded-xl bg-white flex items-center justify-between transition-all hover:border-slate-300 relative overflow-hidden">
+                <!-- Indicador de criticidade minimalista e delicado -->
+                <div class="absolute left-0 top-0 bottom-0 w-1 {% if task.urgency == 'Urgente' %}bg-g4s-red{% elif task.urgency == 'Prioridade' %}bg-slate-400{% else %}bg-g4s-dark{% endif %}"></div>
+                
+                <div class="pl-2">
+                    <h4 class="text-sm font-semibold text-slate-900">{{ task.title }}</h4>
+                    <span class="text-xs text-slate-400 font-medium block mt-0.5">Prazo Operacional: {{ task.start_date.strftime('%d/%m') }} até {{ task.due_date.strftime('%d/%m/%Y') }}</span>
+                    {% if task.emails_together %}
+                        <div class="flex items-center gap-1.5 text-g4s-red text-xs font-semibold mt-2">
+                            <i data-feather="users" class="w-3.5 h-3.5"></i>
+                            <span>{{ task.emails_together }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <span class="text-[10px] font-bold px-3 py-1 rounded-full uppercase shrink-0 {% if task.urgency == 'Urgente' %}bg-red-50 text-g4s-red border border-red-200{% elif task.urgency == 'Prioridade' %}bg-slate-50 text-slate-600 border border-slate-200{% else %}bg-slate-900 text-white{% endif %}">
+                    {{ task.urgency }}
+                </span>
+            </div>
+            {% else %}
+                <p class="text-xs text-slate-400 font-medium py-4 text-center">Nenhum alinhamento ou job pendente no backlog.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

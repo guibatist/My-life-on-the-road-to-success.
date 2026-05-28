@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-pt" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}G4S Tactical Studio{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        g4s: {
+                            red: '#D22630',
+                            'red-hover': '#B81F27',
+                            'red-light': '#FEF2F2',
+                            dark: '#0B0F19',
+                            'dark-card': '#1E293B',
+                            slate: '#64748B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'premium': '0 8px 30px rgb(0,0,0,0.02)',
+                        'premium-hover': '0 20px 40px rgb(0,0,0,0.04)'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .fc { --fc-border-color: #F1F5F9; --fc-daygrid-event-dot-width: 6px; }
+        .fc .fc-toolbar-title { font-size: 13px !important; font-weight: 600; color: #0B0F19; text-transform: uppercase; letter-spacing: 0.05em; }
+        .fc .fc-button-primary { background-color: #FFFFFF !important; color: #0B0F19 !important; border: 1px solid #E2E8F0 !important; font-size: 11px !important; font-weight: 500; padding: 4px 8px !important; text-transform: capitalize; border-radius: 6px !important; }
+        .fc .fc-button-primary:hover { background-color: #F8FAFC !important; }
+        .fc .fc-button-active { background-color: #FEF2F2 !important; color: #D22630 !important; border-color: #FEE2E2 !important; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+    </style>
+</head>
+<body class="h-full overflow-hidden flex flex-row">
+
+    <!-- SIDEBAR ELITE SAAS -->
+    <aside class="w-64 bg-g4s-dark flex flex-col border-r border-slate-800/20 z-20 shrink-0">
+        <div class="p-6 flex items-center gap-3.5 border-b border-slate-800/40">
+            <div class="w-9 h-9 bg-g4s-red rounded-full flex items-center justify-center font-bold text-xs text-white tracking-wider shadow-[0_0_15px_rgba(210,38,48,0.4)]">
+                G4S
+            </div>
+            <div>
+                <h2 class="text-white text-[14px] font-semibold tracking-tight leading-tight">Operation</h2>
+                <span class="text-slate-400 text-[10px] uppercase font-bold tracking-widest block mt-0.5">Cape Town</span>
+            </div>
+        </div>
+        
+        <nav class="flex-1 px-3 py-6 flex flex-col gap-1">
+            <a href="/" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 {% if request.path == '/' %}bg-g4s-red text-white shadow-md shadow-g4s-red/10{% else %}text-slate-400 hover:bg-slate-800/40 hover:text-white{% endif %}">
+                <i data-feather="pie-chart" class="w-4 h-4"></i> Dashboard Geral
+            </a>
+            <a href="/modulo-ingles" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 {% if request.path == '/modulo-ingles' %}bg-g4s-red text-white shadow-md shadow-g4s-red/10{% else %}text-slate-400 hover:bg-slate-800/40 hover:text-white{% endif %}">
+                <i data-feather="book-open" class="w-4 h-4"></i> Módulo Inglês
+            </a>
+            <a href="/modulo-trabalho" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 {% if request.path == '/modulo-trabalho' %}bg-g4s-red text-white shadow-md shadow-g4s-red/10{% else %}text-slate-400 hover:bg-slate-800/40 hover:text-white{% endif %}">
+                <i data-feather="briefcase" class="w-4 h-4"></i> Work & Network
+            </a>
+            <a href="/modulo-financeiro" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 {% if request.path == '/modulo-financeiro' %}bg-g4s-red text-white shadow-md shadow-g4s-red/10{% else %}text-slate-400 hover:bg-slate-800/40 hover:text-white{% endif %}">
+                <i data-feather="dollar-sign" class="w-4 h-4"></i> Módulo Financeiro
+            </a>
+        </nav>
+        
+        <div class="p-4 border-t border-slate-800/40 text-center">
+            <div class="bg-slate-900/60 rounded-xl py-2.5 px-3 border border-slate-800/30">
+                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest block">Prazo Final</span>
+                <span class="text-white font-semibold text-xs mt-0.5 block">Dezembro 2027</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- CONTENT WRAPPER -->
+    <main class="flex-1 overflow-y-auto bg-slate-50 flex flex-col min-w-0">
+        <header class="h-16 border-b border-slate-200/60 bg-white flex items-center justify-between px-8 shrink-0">
+            <div>
+                <h1 class="text-slate-900 text-sm font-semibold tracking-tight">{% block header_title %}{% endblock %}</h1>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-50 border border-slate-200/80 px-3 py-1.5 rounded-full text-xs font-medium text-slate-700 shadow-sm">
+                <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                Intercambista Pro
+            </div>
+        </header>
+        
+        <div class="p-8 flex-1 min-h-0">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
